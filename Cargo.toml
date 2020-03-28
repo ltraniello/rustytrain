@@ -1,0 +1,12 @@
+[package]
+name = "count_rects"
+version = "0.1.0"
+authors = ["Ludovic <ludovic.traniello@supelec.fr>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+[profile.release]
+debug = true
