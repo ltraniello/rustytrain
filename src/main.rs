@@ -1,9 +1,8 @@
-use count_rects;
-
 use std::vec::Vec;
-use std::time::{Duration, Instant};
+use std::time::{Instant};
 
-type FnCountRect = fn(&Vec::<count_rects::Point>) -> i32;
+
+type FnCountRect = fn(&Vec::<rustytrain::plane_points::Point>) -> i32;
 
 struct DecoratedFunc {
     f: FnCountRect,
@@ -12,16 +11,16 @@ struct DecoratedFunc {
 }
 
 fn main() {
-    let array_N: [i32; 7] = [4,14,30,50,90,200,400];
+    let array_n: [i32; 7] = [4,14,30,50,90,200,400];
 
     let mut fns = Vec::new();
-    fns.push(DecoratedFunc{f:count_rects::count_orthog_fast_1, fname: String::from("count_orthog_fast_1"), maxSize: 1000});
-    fns.push(DecoratedFunc{f:count_rects::count_orthog_fast_2, fname: String::from("count_orthog_fast_2"), maxSize: 1000000});
-    fns.push(DecoratedFunc{f:count_rects::count_fast_1,        fname: String::from("count_fast_1       "), maxSize: 1000});
+    fns.push(DecoratedFunc{f: rustytrain::plane_points::count_orthog_fast_1, fname: String::from("count_orthog_fast_1"), maxSize: 1000});
+    fns.push(DecoratedFunc{f: rustytrain::plane_points::count_orthog_fast_2, fname: String::from("count_orthog_fast_2"), maxSize: 1000000});
+    fns.push(DecoratedFunc{f: rustytrain::plane_points::count_fast_1,        fname: String::from("count_fast_1       "), maxSize: 1000});
 
-    for n in &array_N {
+    for n in &array_n {
         let mut points = Vec::new();
-        count_rects::fill_points_between(0, 0, *n, *n, &mut points);
+        rustytrain::plane_points::fill_points_between(0, 0, *n, *n, &mut points);
 
         let points_len = points.len() as i32;
 
