@@ -7,6 +7,18 @@ pub struct Grid {
     size:  usize,
 }
 
+impl std::fmt::Display for Grid {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        for (i, v) in self.array.iter().enumerate() {
+            write!(f, " {}", v).unwrap();
+            if i % (self.size*self.size) == 0 {
+                write!(f, "\n").unwrap();
+            }
+        }
+        write!(f, "\n?")
+    }
+}
+
 impl Grid {
 
     fn new(grid_as_str: &str, sudoku_size: usize) -> Grid {
@@ -16,7 +28,6 @@ impl Grid {
             panic!("Invalid input")
         }
         let mut vec = vec![0; length];
-
 
         for (i, c) in grid_as_str.chars().enumerate() {
             let char_as_int = c.to_digit(32);
@@ -57,7 +68,7 @@ impl Grid {
                 }
             }
 
-            match used_col_values.get(&col_index) {
+            match used_col_values.get_mut(&col_index) {
                 Some(s) => if s[(*v as usize)-1] { return false;} else {s[(*v as usize)-1] = true;},
                 None => panic!("Kaboom")
             }
@@ -66,7 +77,7 @@ impl Grid {
     }
 
     fn solve(&self) -> Grid {
-        let g = Grid {array:self.array, size:self.size};
+        let g = Grid {array:self.array.clone(), size:self.size};
         g
     }
 }
@@ -77,7 +88,7 @@ mod sudoku_test {
     use super::*;
 
     #[test]
-    fn init_sudoku() {
+    fn test_sudoku() {
         let test_grid_9x9: [&str; 7] = [
             "004300209005009001070060043006002087190007400050083000600000105003508690042910300",
             "040100050107003960520008000000000017000906800803050620090060543600080700250097100",
@@ -90,6 +101,8 @@ mod sudoku_test {
 
         for grid_data in &test_grid_9x9 {
             let g = Grid::new(grid_data, 3);
+            println!("Grid: {}", g);
+            assert_eq!(g.check(), true);
         }
     }
 }
